@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "a40b1ae4-6436-455c-ac36-1cfd33eddb59",
+		"name": "Login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34548773"
+	},
+	"item": [
+		{
+			"name": "https://speak-ukrainian.org.ua/api/signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('accessToken');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('refreshToken');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"flora.tetiana@chnu.edu.ua\",\r\n    \"password\": \"23082018fF/\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://speak-ukrainian.org.ua/api/signin",
+					"protocol": "https",
+					"host": [
+						"speak-ukrainian",
+						"org",
+						"ua"
+					],
+					"path": [
+						"api",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://speak-ukrainian.org.ua/api/signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Перевірка статусу та повідомлення\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(jsonData.status);\r",
+							"    pm.expect(pm.response.json().message).to.equal(jsonData.message);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"tests\": [\r\n    {\r\n      \"name\": \"Перевірка статусу 404 та повідомлення про відсутність користувача\",\r\n      \"request\": {\r\n        \"params\": {\r\n          \"email\": \"flora.tetiana@gmail.com\"\r\n        }\r\n      },\r\n      \"response\": {\r\n        \"status\": 404,\r\n        \"json\": { \"message\": \"User not found by email flora.tetiana@gmail.com\" }\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"Перевірка входу з неправильним паролем\",\r\n      \"request\": {\r\n        \"body\": {\r\n          \"mode\": \"raw\",\r\n          \"raw\": \"{\\\"email\\\": \\\"flora.tetiana@gmail.com\\\", \\\"password\\\": \\\"incorrect_password\\\"}\"\r\n        }\r\n      },\r\n      \"response\": {\r\n        \"status\": 404,\r\n        \"json\": { \"message\": \"User not found by email flora.tetiana@gmail.com\" }\r\n      }\r\n    },\r\n    {\r\n      \"name\": \"Перевірка статусу 401 та повідомлення про неправильний пароль\",\r\n      \"request\": {\r\n        \"body\": {\r\n          \"mode\": \"raw\",\r\n          \"raw\": \"{\\\"email\\\": \\\"flora.tetiana@chnu.edu.ua\\\", \\\"password\\\": \\\"wrong_password\\\"}\"\r\n        }\r\n      },\r\n      \"response\": {\r\n        \"status\": 401,\r\n        \"json\": { \"message\": \"Wrong password\" }\r\n      }\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://speak-ukrainian.org.ua/api/signin",
+					"protocol": "https",
+					"host": [
+						"speak-ukrainian",
+						"org",
+						"ua"
+					],
+					"path": [
+						"api",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://speak-ukrainian.org.ua/api/signin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Перевірка статусу та повідомлення\", function () {\r",
+							"    pm.expect(404).to.equal(jsonData.status);\r",
+							"    pm.expect(\"User not found by email flora.tetiana@gmail.com\").to.equal(jsonData.message);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"flora.tetiana@gmail.com\",\r\n    \"password\": \"23082018f/\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://speak-ukrainian.org.ua/api/signin",
+					"protocol": "https",
+					"host": [
+						"speak-ukrainian",
+						"org",
+						"ua"
+					],
+					"path": [
+						"api",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
