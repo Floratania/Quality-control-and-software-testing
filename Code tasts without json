@@ -1,0 +1,30 @@
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response has token", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('accessToken');
+});
+
+pm.test("Response has token", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('refreshToken');
+});
+
+
+pm.test("Response time is less than 1000ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(1000);
+});
+const jsonData = pm.response.json();
+
+pm.test("Перевірка статусу та повідомлення", function () {
+    pm.expect(pm.response.code).to.equal(jsonData.status);
+    pm.expect("Wrong password").to.equal(jsonData.message);
+});
+const jsonData = pm.response.json();
+
+pm.test("Перевірка статусу та повідомлення", function () {
+    pm.expect(404).to.equal(jsonData.status);
+    pm.expect("User not found by email flora.tetiana@gmail.com").to.equal(jsonData.message);
+});
